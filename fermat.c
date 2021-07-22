@@ -42,9 +42,9 @@ int main()
     for(int i = 1;i<t;i++)
     {
         a = 2 + rand()%((n-2)-1);
-        printf("%d",a);
         binhphuong(n-1,a);
-        if(p==1)
+    }
+     if(p==1)
         {
             printf("nguyen to");
         }
@@ -52,6 +52,5 @@ int main()
         {
             printf ("hop so");
         }
-    }
     return 0;
 }
