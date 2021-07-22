@@ -1,122 +1,94 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
-int n = 0, o, t = 0, lan_lap = 0;
-
+int n , t = 0, s, mang[50], A, p, a;
+int k = 0;
 void nhap()
 {
     while (n < 3)
     {
-        printf("nhap n (>=3) = ");
+        printf("Nhap n: ");
         scanf("%d", &n);
     }
 
-    while (lan_lap < 1)
+    while (t < 1)
     {
-        printf("nhap t (>=1) = ");
-        scanf("%d", &lan_lap);
+        printf("\nnhap t: ");
+        scanf("%d", &t);
     }
 }
-
-int tim_so_le_r(int x)
-{
+int tim_s(int k){
     int r;
-    while (r % 2 == 0)
-    {
-        r = (x - 1) / 2;
+    int x =k-1;
+    while(r %2 ==0){
+        r= x / 2;
+        x= x/2;
     }
-    return r;
+    s= log((k-1) / r) / log(2);
+    return s;
+
 }
 
-int *chuyen_nhi_phan(int x)
+int binhPhuong(int x, int v)
 {
-    static int mang[50];
+
     while (x != 0)
     {
-        mang[t] = x % 2;
+        mang[k] = x % 2;
         x = x / 2;
-        t++;
+        k++;
     }
-    return mang;
-}
-
-int binh_phuong_co_lap(int a)
-{
-    int *f;
-    int w, bp, b = 1;
-    int k[50];
-    f = chuyen_nhi_phan(n - 1);
-    for (int i = t - 1; i >= 0; i--)
+    p = 1;
+    for (int i = k - 1; i >= 0; i--)
     {
-        k[t - 1 - i] = *(f + i);
-    }
-    for (int i = 0; i < t; i++)
-    {
-        bp = pow(b, 2);
-        w = bp % n;
-        if (k[i] == 1)
+        A = (p * p) % n;
+        if (mang[i] == 1)
         {
-            b = (a * w) % n;
+            p = (v * A) % n;
         }
-        else if (k[i] == 0)
+        else if (mang[i] == 0)
         {
-            b = w;
+            p = A;
         }
     }
-    return b;
+    return p;
 }
-
-int random(int min, int max)
-{
-    int tg;
-    if (min > max)
-    {
-        tg = min;
-        min = max;
-        max = tg;
-    }
-    return min + rand() % (max + 1 - min);
-}
-
-int kt_so_nguyen_to()
-{
-    int r, s, a, y, bp;
-    r = tim_so_le_r(n);
-    s = log((n - 1) / r) / log(2);
-    for (int i = 0; i <= lan_lap; i++)
-    {
-        a = random(2, n - 2);
-        y = binh_phuong_co_lap(a);
-        if (y != 1 && y != (n - 1))
-        {
-            int j = 1;
-            while (j <= (s - 1) && y != (n - 1))
-            {
-                bp = pow(y, 2);
-                y = bp % n;
-                if (y == 1)
-                {
-                    printf("la hop so");
-                    return 0;
-                }
-                j = j + 1;
-            }
-            if (y != n - 1)
-            {
-                printf("la hop so");
-                return 0;
-            }
-        }
-        if (i == lan_lap)
-        {
-            printf("la so nguyen to");
-        }
-    }
-}
-
-int main()
+void tinh()
 {
     nhap();
-    o = kt_so_nguyen_to();
+    tim_s(n);
+    for (int i = 1; i <= t; i++)
+    {
+        a = 2 + rand() % ((n - 2) + 1 - 2);
+        printf("\n voi a= %d thi ", a);
+        binhPhuong(n - 1, a);
+        if (p != 1 && p != (n - 1))
+        {
+            int j = 1;
+            while (j <= (s - 1) && p != (n - 1))
+            {
+                p = p * p % n;
+                if (p == 1)
+                {
+                    printf("hop so");
+                }
+                j += 1;
+            }
+            if (p != (n - 1))
+            {
+                printf("hop so");
+            }
+        }
+        else
+        {
+            printf("nguyen to");
+        }
+    }
+}
+int main()
+{
+
+    tinh();
     return 0;
 }
