@@ -1,153 +1,186 @@
 #include<stdio.h>
-#include<math.h>
+#include <stdio.h>
+#include <math.h>
 
 int w;
-long long p,x,y,a[100],b[100];
+long long p, d, e, a[100], b[100];
+
 void nhap()
 {
     int k;
-    printf("P");
-    scanf("%lld",&p);
-    printf("W");
-    scanf("%lld",&w);
+    printf("nhap p = ");
+    scanf("%lld", &p);
+    printf("nhap w = ");
+    scanf("%d", &w);
 
-    while(1)
+    while (1)
     {
-        printf("nhap so ban chon");
-        printf("1 so");
-        printf("2 mang");
-        printf("so ban chon");
-        scanf("%d",&k);
-        if(k ==1)
+        printf("\n\nban muon nhap nhu the nao??");
+        printf("\nchon 1 hoac 2");
+        printf("\n1. nhap so");
+        printf("\n2. nhap mang");
+        printf("\nban chon = ");
+        scanf("%d", &k);
+
+        if (k == 1)
         {
-            printf("a");
-            scanf("%lld",&x);
-            printf("b");
-            scanf("%lld",&y);
-            Tru_tren_f(k);
+            printf("nhap a = ");
+            scanf("%lld", &d);
+            printf("nhap b = ");
+            scanf("%lld", &e);
+            tru_tren_f(k);
+            break;
+        }
+        else if (k == 2)
+        {
+            int t;
+            t = tinh_t();
+            printf("\nnhap mang cua a\n");
+            for (int i = t - 1; i >= 0; i--)
+            {
+                printf("a[%d] = ", i);
+                scanf("%lld", &a[i]);
+            }
+            printf("\nnhap mang cua b\n");
+            for (int i = t - 1; i >= 0; i--)
+            {
+                printf("b[%d] = ", i);
+                scanf("%lld", &b[i]);
+            }
+            tru_tren_f(k);
             break;
         }
     }
 }
+
 int tinh_t()
 {
-    int t,m;
-    m = ceil(log(p)/log(2));
-    t = ceil((float)m/w);
+    int t, m;
+    m = ceil(log(p) / log(2));
+    t = ceil((float)m / w);
     return t;
 }
-
-long long *bieu_dien(long long a)
+long long *bieu_dien_a(long long a)
 {
     static long long mang[100];
     int t;
     t = tinh_t();
-    int j = t-1;
-    long long uoc ,luythua;
-    for(int i = t-1;i>=0;i--)
+    long long uoc, luythua;
+    int j = t - 1;
+    // printf("cac he so la");
+    for (int i = t - 1; i >= 0; i--)
     {
-        luythua = pow(2,i*w);
-        uoc = a/luythua;
-        a = a%luythua;
-        mang[j]=uoc;
+        luythua = pow(2, i * w);
+        uoc = a / luythua;
+        a = a % luythua;
+        mang[j] = uoc;
+        // printf("\nhe so thu %d = %d,  %d", j + 1, uoc, mang[j]);
         j--;
     }
     return mang;
 }
-long *Tru(int k)
+
+long long *tru_chinh_xac_boi(int k)
 {
     static long long c[100];
-    long long hieu,luythua;
-    int t ,e=0;
-    if(k==1)
+    long long hieu, luythua;
+    int t, ep = 0;
+    t = tinh_t();
+    if (k == 1)
     {
-        long long *r,*o;
-        r = bieu_dien(x);
-        for(int i =0;i<t;i++)
+        long long *f, *g;
+        f = bieu_dien_a(d);
+        for (int i = 0; i < t; i++)
         {
-            a[i]=*(r+i);
+            a[i] = *(f + i);
         }
-        o = bieu_dien(y);
-        for(int i = 0;i<t;i++)
+        g = bieu_dien_a(e);
+        for (int i = 0; i < t; i++)
         {
-            b[i]=*(o+i);
+            b[i] = *(g + i);
         }
-
     }
-    for(int i = 0;i<= t-1;i++)
+    // printf("\ncac he so va 'e' la");
+    for (int i = 0; i <= t - 1; i++)
     {
-        luythua = pow(2,w);
-        hieu = a[i]- b[i]-e;
-        if(hieu<0)
+        hieu = a[i] - b[i] - ep;
+        luythua = pow(2, w);
+        if (hieu < 0)
         {
-            c[i]=hieu+luythua;
-            e=1;
+            c[i] = luythua + hieu;
+            ep = 1;
         }
         else
         {
-            c[i]=hieu;
-            e = 0;
+            ep = 0;
+            c[i] = hieu;
         }
+        // printf("\nc[%d] = %d, e = %d", i, c[i], ep);
     }
-    c[t]=e;
+    c[t] = ep;
     return c;
 }
-void Cong(long long a[])
+void tru_tren_f(int k)
 {
-    long long *r,tong,luythua;
-    long long c[100];
-    int t,e=0;
+    long long *f, c[100];
+    int t;
     t = tinh_t();
-    r = bieu_dien(p);
-    for(int i = 0;i<t;i++)
+    f = tru_chinh_xac_boi(k);
+    for (int i = 0; i <= t; i++)
     {
-        b[i]=*(r +i);
-    }
-    for(int i = 0;i<=t-1;i++)
-    {
-        tong = a[i]+b[i]+e;
-        luythua = pow(2,w);
-        if(tong >=pow(2,w))
+        c[i] = *(f + i);
+        // printf("\nc[%d] = %d", i, c[i]);
+        if (i == t)
         {
-            c[i]=tong%luythua;
-            e=1;
+            c[i] = *(f + t);
+        }
+    }
+    if (c[t] == 0)
+    {
+        printf("\ncac he so va 'e' la");
+        for (int i = 0; i <= t - 1; i++)
+        {
+            printf("\nc[%d] = %lld", i, c[i]);
+        }
+        printf("\n'e' = %lld", c[t]);
+    }
+    else if (c[t] == 1)
+    {
+        cong_chinh_xac_boi(c);
+    }
+}
+
+void cong_chinh_xac_boi(long long a[])
+{
+    long long *g, tong, luythua;
+    long long c[100];
+    int t, ep = 0;
+    t = tinh_t();
+    g = bieu_dien_a(p);
+    for (int i = 0; i < t; i++)
+    {
+        b[i] = *(g + i);
+        // printf("\nb[%d] = %d, a[%d] = %d", i, b[i], i, a[i]);
+    }
+    printf("\ncac he so va 'e' la");
+    for (int i = 0; i <= t - 1; i++)
+    {
+        tong = a[i] + b[i] + ep;
+        luythua = pow(2, w);
+        if (tong >= pow(2, w))
+        {
+            c[i] = tong % luythua;
+            ep = 1;
         }
         else
         {
-            e = 0;
-            c[i]=tong;
+            ep = 0;
+            c[i] = tong;
         }
-        printf("%lld ,e = %d",c[i],e);
-    }
-
-}
-void Tru_tren_f(int k)
-{
-
-    long long *o,c[100];
-    int t;
-    t = tinh_t();
-    o =Tru(k);
-    for(int i = 0;i<=t;i++)
-    {
-        c[i]=*(o +i);
-        if(i == t)
-        {
-            c[i]=*(o +i);
-        }
-    }
-    if(c[t]==0)
-    {
-        for(int i = 0;i<=t-1;i++)
-        {
-            printf("%lld",c[i]);
-        }
-        printf(" e=%lld",c[t]);
-    }else if(c[t]==1)
-    {
-        Cong(c);
+        printf("\nc[%d] = %lld, e = %d", i, c[i], ep);
     }
 }
+
 int main()
 {
     nhap();
