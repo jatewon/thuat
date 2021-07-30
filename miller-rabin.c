@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<math.h>
-int n,t,s,mang[100],b,a,p;
-int k = 0;
+int p,a,b,n,t,k=0,mang[100],s;
 void nhap()
 {
     while(n<3)
@@ -22,11 +21,10 @@ int tims(int k)
     while(r%2==0)
     {
         r = x/2;
-        x=x/2;
+        x = x/2;
     }
-    s = log((k-1)/r)/log(2);
+    s =(log(k-1)/r)/log(2);
     return s;
-
 }
 int binhphuong(int m,int v)
 {
@@ -37,12 +35,12 @@ int binhphuong(int m,int v)
         k++;
     }
     p = 1;
-    for(int i =k-1; i>=0; i--)
+    for(int i = k-1; i>=0; i--)
     {
-        b = (p*p)%n;
+        b = p*p%n;
         if(mang[i]==1)
         {
-            p = (b*a)%n;
+            p = b*v%n;
         }
         else if(mang[i]==0)
         {
@@ -55,27 +53,29 @@ int main()
 {
     nhap();
     tims(n);
-    for(int i = 1; i<=t; i++)
+    for(int i =1; i<t; i++)
     {
-        a = 2 + rand()%((n-2)+1-2);
+        a = rand()%((n-2)+1-2);
         binhphuong(n-1,a);
-        if(p!=1 && p !=(n-1))
+        if(p!=1 && p!=(n-1))
         {
             int j = 1;
-            while(j <(s-1) && p != (n-1))
+            while(j <(s-1) && p!=(n-1))
             {
                 p = p*p%n;
                 j+=1;
             }
         }
+        if(p !=1)
+            {
+                printf("hop so");
+                return 0;
+            }
+            else
+            {
+                printf("nguyen to");
+                return 0;
+            }
     }
-    if(p ==1)
-        {
-            printf("nguyen to");
-        }
-        else
-        {
-            printf("hop so");
-        }
-    return 0;
 }
+
