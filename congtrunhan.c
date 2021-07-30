@@ -4,29 +4,15 @@ int w;
 long long p,x,y,a[100],b[100];
 void nhap()
 {
-    int k;
     printf("P:");
     scanf("%lld",&p);
     printf("w");
     scanf("%d",&w);
-
-    while(1)
-    {
-        printf("ban chon :");
-        printf("1 so\n");
-        printf("2 mang\n");
-        printf("so chon :");
-        scanf("%d",&k);
-        if(k ==1 )
-        {
-            printf("a:");
-            scanf("%lld",&x);
-            printf("b:");
-            scanf("%lld",&y);
-            Nhan(k);
-            break;
-        }
-    }
+    printf("a:");
+    scanf("%lld",&x);
+    printf("b:");
+    scanf("%lld",&y);
+    Tru();
 }
 int tinht()
 {
@@ -53,60 +39,56 @@ long long *bieu_dien(long long a)
     }
     return mang;
 }
-void Cong(int k)
+void Cong()
 {
     long long c[100],luythua,e=0;
     int t;
     t= tinht();
     int j = t-1;
     int tong;
-    if(k ==1)
+    long long *r,*o;
+    r= bieu_dien(x);
+    for(int i = 0; i<t; i++)
     {
-        long long *r,*o;
-        r= bieu_dien(x);
-        for(int i = 0;i<t;i++)
-        {
-            a[i]=*(r+i);
-        }
-        o = bieu_dien(y);
-        for(int i = 0;i<t;i++)
-        {
-            b[i]=*(o+i);
-        }
+        a[i]=*(r+i);
     }
-    for(int i =0;i<=t-1;i++)
+    o = bieu_dien(y);
+    for(int i = 0; i<t; i++)
+    {
+        b[i]=*(o+i);
+    }
+    for(int i =0; i<=t-1; i++)
     {
         tong = a[i]+b[i]+e;
         luythua = pow(2,w);
-        if(tong >= luythua){
+        if(tong >= luythua)
+        {
             c[i]=tong%luythua;
             e=1;
         }
-        else{
-                c[i]=tong;
-                e = 0;
+        else
+        {
+            c[i]=tong;
+            e = 0;
         }
         printf("%lld ,e = %d",c[i],e);
     }
 }
-void Tru(int k)
+void Tru()
 {
     long long c[100],luythua;
     int hieu,t,e=0;
     t = tinht();
-    if(k==1)
+    long long *r,*o;
+    r= bieu_dien(x);
+    for(int i =0; i<t; i++)
     {
-        long long *r,*o;
-        r= bieu_dien(x);
-        for(int i =0; i<t; i++)
-        {
-            a[i]=*(r+i);
-        }
-        o= bieu_dien(y);
-        for(int i = 0; i<t; i++)
-        {
-            b[i]=*(o+i);
-        }
+        a[i]=*(r+i);
+    }
+    o= bieu_dien(y);
+    for(int i = 0; i<t; i++)
+    {
+        b[i]=*(o+i);
     }
     for(int i = 0; i<=t-1; i++)
     {
@@ -125,34 +107,31 @@ void Tru(int k)
         printf("%lld,e = %d  ",c[i],e);
     }
 }
-void Nhan(int k)
+void Nhan()
 {
     int t,u,v;
     long long c[100],luythua,uv;
     luythua = pow(2,w);
     t = tinht();
-    if(k ==1)
+    long long *r,*o;
+    r = bieu_dien(x);
+    for(int i = 0; i<t; i++)
     {
-        long long *r,*o;
-        r = bieu_dien(x);
-        for(int i = 0; i<t; i++)
-        {
-            a[i]=*(r+i);
-        }
-        o = bieu_dien(y);
-        for(int i = 0; i<t; i++)
-        {
-            b[i]=*(o+i);
-        }
+        a[i]=*(r+i);
     }
-    for(int i = 0;i<=(2*t)-1;i++)
+    o = bieu_dien(y);
+    for(int i = 0; i<t; i++)
+    {
+        b[i]=*(o+i);
+    }
+    for(int i = 0; i<=(2*t)-1; i++)
     {
         c[i]=0;
     }
-    for(int i = 0;i<=t-1;i++)
+    for(int i = 0; i<=t-1; i++)
     {
         u = 0;
-        for(int j =0;j<=t-1;j++)
+        for(int j =0; j<=t-1; j++)
         {
             uv= c[i+j]+a[i]*b[j]+u;
             u = uv/luythua;
@@ -161,7 +140,7 @@ void Nhan(int k)
         }
         c[i+t]=u;
     }
-    for(int i =0;i<w;i++)
+    for(int i =0; i<w; i++)
     {
         printf("%lld   ",c[i]);
     }
