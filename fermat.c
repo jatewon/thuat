@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<math.h>
-int a,b,p,n,t,x=0,mang[100];
+int n,t,a,b,p,mang[100],k=0;
 void nhap()
 {
     while(n<3)
@@ -14,22 +14,23 @@ void nhap()
         scanf("%d",&t);
     }
 }
-void binhphuong(int m,int v)
+int binhphuong(int m,int v)
 {
     while(m!=0)
     {
-        mang[x]=m%2;
+        mang[k]=m%2;
         m = m/2;
-        x++;
+        k++;
     }
     p = 1;
-    for(int i = x-1;i>=0;i--)
+    for(int i = k-1;i>=0;i--)
     {
-        b = (p*p)%n;
+        b = p*p%n;
         if(mang[i]==1)
         {
-            p = (b*v)%n;
-        }else if(mang[i]==0)
+            p = b*v%n;
+        }
+        else if(mang[i]==0)
         {
             p = b;
         }
@@ -41,16 +42,18 @@ int main()
     nhap();
     for(int i = 1;i<t;i++)
     {
-        a = 2 + rand()%((n-2)-1);
+        a = 2 + rand()%((n-2)-2+1);
         binhphuong(n-1,a);
-    }
-     if(p==1)
+      if(p!=1)
         {
-            printf("nguyen to");
+            printf(" %d hop so",n);
+            return 0;
         }
         else
         {
-            printf ("hop so");
+            printf(" %d nguyen to",n);
+            return 0;
         }
-    return 0;
+    }
 }
+
