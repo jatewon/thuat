@@ -1,34 +1,34 @@
 #include<stdio.h>
 #include<math.h>
 int w;
-long long p,x,y,a[100],b[100];
+long long p,e,d,a[100],b[100];
 void nhap()
 {
     printf("p");
     scanf("%lld",&p);
     printf("w");
     scanf("%d",&w);
-    printf("x");
-    scanf("%lld",&x);
-    printf("y");
-    scanf("%lld",&y);
-    congtrenf();
+    printf("a");
+    scanf("%lld",&d);
+    printf("b");
+    scanf("%lld",&e);
+    Congtrenf();
 }
-int tinht()
+int tinh_t()
 {
     int t,m;
-    m= ceil(log(p)/log(2));
-    t = ceil((float)m/w);
+    m = ceil(log(p)/log(2));
+    t  = ceil((float)m/w);
     return t;
 }
-long long *bieudien(long long a)
+long long *bieu_dien(long long a)
 {
-    int t,j;
-    t = tinht();
-    j = t -1;
-    long long uoc,luythua;
     static long long mang[100];
-    for(int i = t-1;i>=0;i--)
+    int t;
+    t = tinh_t();
+    long long uoc,luythua;
+    int j = t-1;
+    for(int i =t-1;i>=0;i--)
     {
         luythua = pow(2,i*w);
         uoc = a/luythua;
@@ -40,96 +40,113 @@ long long *bieudien(long long a)
 }
 long long *cong()
 {
-    int t,ep =0;
-    t = tinht();
     static long long c[100];
+    int t,e= 0;
     long long luythua,tong;
-    long long *g,*f;
-    g =bieudien(x);
+    t=tinh_t();
+    long long *f,*g;
+    f = bieu_dien(d);
     for(int i = 0;i<t;i++)
     {
-        a[i]=*(g+i);
+        a[i]=*(f+i);
     }
-    f = bieudien(y);
-    for(int i = 0;i<t;i++)
-    {
-        b[i]=*(f+i);
-    }
-    for(int i = 0;i<=t-1;i++)
-    {
-        tong = a[i]+b[i]+ep;
-        luythua = pow(2,w);
-        if(tong >= pow(2,w))
-        {
-            c[i]=tong%luythua;
-            ep = 1;
-        }
-        else
-        {
-            c[i]=tong;
-            ep = 0;
-        }
-    }
-    c[t]=ep;
-    return c;
-}
-void congtrenf()
-{
-    long long *f,c[100];
-    int t = tinht();
-    f = cong();
-    for(int i = 0;i<=t;i++)
-    {
-        c[i]=*(f+i);
-        if(i==t)
-        {
-            c[i]=*(f+t);
-        }
-    }
-    if(c[t]==0)
-    {
-        for(int i = 0;i<=t-1;i++)
-        {
-            printf("c[%d] = %lld",i,c[i]);
-        }
-        printf("e = %lld",c[t]);
-    }
-    else if(c[t]==1)
-    {
-        tru(c);
-    }
-}
-void tru(long long a[])
-{
-    long long *g,hieu,luythua;
-    static long long c[100];
-    int t,ep = 0;
-    t = tinht();
-    g = bieudien(p);
+    g = bieu_dien(e);
     for(int i = 0;i<t;i++)
     {
         b[i]=*(g+i);
     }
     for(int i = 0;i<=t-1;i++)
     {
-        hieu = a[i]-b[i]-ep;
+        tong = a[i]+b[i]+e;
         luythua = pow(2,w);
-        if(hieu<0)
+        if(tong >= pow(2,w))
+        {
+            c[i]=tong %luythua;
+             e= 1;
+        }
+        else
+        {
+            c[i]=tong;
+            e = 0;
+        }
+    }
+    c[t]=e;
+    return c;
+}
+void Tru( long long a[])
+{
+    long long *f,hieu,luythua;
+    long long c[100];
+    int t,e = 0;
+    t = tinh_t();
+    f = bieu_dien(p);
+    for(int i = 0;i<=t;i++)
+    {
+        b[i]=*(f+i);
+    }
+    for(int i = 0;i<=t-1;i++)
+    {
+        hieu = a[i]-b[i]-e;
+        luythua = pow(2,w);
+        if(hieu < 0)
         {
             c[i]=hieu + luythua;
-            ep = 1;
+            e=1;
         }
         else
         {
             c[i]=hieu;
-            ep = 0;
+            e = 0;
         }
-        printf("c[%d] = %lld",i,c[i]);
+        printf("%lld ",c[i]);
     }
+}
+long long sochinhxac(long long c[])
+{
+    int t;
+    long long tong = 0;
+    t = tinh_t();
+    for(int i = 0;i<=t-1;i++)
+    {
+        tong  = tong + c[i]*pow(2,i*w);
+    }
+    return tong;
+}
+void Congtrenf()
+{
+    long long *f,c[100];
+    int t;
+    long long soc;
+     t = tinh_t();
+     f = cong();
+     for(int i = 0;i<=t;i++)
+     {
+         c[i]=*(f+i);
+     }
+     soc = sochinhxac(c);
+     if(c[t]==0)
+     {
+         if(soc<p)
+         {
+             for(int i = 0;i<=t-1;i++)
+             {
+                 printf("%lld ",c[i]);
+             }
+             printf(" e = %lld",c[t]);
+         }
+         else
+         {
+             Tru(c);
+         }
+     }
+     else if (c[t]==1)
+     {
+         Tru(c);
+     }
 }
 int main()
 {
     nhap();
-    return 0;
 }
+
 
