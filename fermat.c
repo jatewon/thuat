@@ -1,59 +1,100 @@
 #include<stdio.h>
 #include<math.h>
-int n,t,a,b,p,mang[100],k=0;
-void nhap()
+int binhphuong(int a,int k,int n)
 {
-    while(n<3)
+    long long b =1;
+    long long A = a;
+    if(k==0) return (int)b;
+    int t = k%2;
+    k = k/2;
+    if(t==1)
     {
-        printf("n");
-        scanf("%d",&n);
+        b = a;
     }
-    while(t<1)
+    for(int i = k;k>0;k=k/2)
     {
-        printf("t");
-        scanf("%d",&t);
+        A = A*A%n;
+        t = k%2;
+        if(t==1)
+        {
+            b = A*b%n;
+        }
     }
+    return (int)b;
 }
-int binhphuong(int m,int v)
+int femat(int n)
 {
-    while(m!=0)
+    int t = 5;
+    int a[t];
+    for(int i = 0;i<t;i++)
     {
-        mang[k]=m%2;
-        m = m/2;
-        k++;
+        a[i]=2 + rand()%(n-2 +1 -2);
     }
-    p = 1;
-    for(int i = k-1;i>=0;i--)
+    for(int i =0;i<t;i++)
     {
-        b = p*p%n;
-        if(mang[i]==1)
+        int r = binhphuong(a[i],n-1,n);
+        if(r!=1)
         {
-            p = b*v%n;
-        }
-        else if(mang[i]==0)
-        {
-            p = b;
+            return 0;
         }
     }
-    return p;
+    return 1;
+}
+int rabin(int n)
+{
+    int r = n-1,s = 0,t = 5;
+    int a[t];
+    for(int i = 0;i<t;i++)
+    {
+        a[i]=2 + rand()%(n-2 + 1-2);
+    }while(r%2==0)
+    {
+        s++;
+        r = r/2;
+    }
+    for(int i = 1;i<=t;i++)
+    {
+        int y = binhphuong(a[i-1],r,n);
+        if(y!=1 && y!=(n-1))
+        {
+            int j = 1;
+            while(j <= s-1&& y !=(n-1))
+            {
+                y = (y*y)%n;
+                if(y ==1)
+                {
+                    return 0;
+                }
+                j+=1;
+            }
+            if(y !=(n-1))
+            {
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 int main()
 {
-    nhap();
-    for(int i = 1;i<t;i++)
+    int n;
+    printf("n");
+    scanf("%d",&n);
+    if(rabin(n)==1)
     {
-        a = 2 + rand()%((n-2)-2+1);
-        binhphuong(n-1,a);
-      if(p!=1)
-        {
-            printf(" %d hop so",n);
-            return 0;
-        }
-        else
-        {
-            printf(" %d nguyen to",n);
-            return 0;
-        }
+        printf("nguyen to");
     }
+    else
+    {
+        printf("hop so");
+    }
+    //if(femat(n)==1)
+    //{
+      //  printf(" nguyen to");
+    //}else
+    //{
+     //   printf("hop so");
+    //}
+
 }
 
